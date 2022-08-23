@@ -38,12 +38,13 @@ function PostForm(props) {
     function getClients() {
         const request = Axios.get("http://localhost:8080/clients")
         .then(response => {
-            return response.data;
+            console.log(response.data);
+            // return response.data -> ez nem mukodik
         })
         
-        //const ls = ["Aladar", "Janos"];
-        //console.log(ls);
-        //return ls;
+        const ls = ["Aladar", "Janos"];
+        console.log(ls);
+        return ls;
     }
 
     function handle(e) {
