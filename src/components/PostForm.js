@@ -19,7 +19,6 @@ function PostForm(props) {
         billable: ""
     })
     const [ignored, forceUpdate] = useReducer(x => x+1, 0);
-    const [zohoClients, setZohoClients] = React.useState([])
     
 
     function jobListForClient(name) {
@@ -39,11 +38,12 @@ function PostForm(props) {
     function getClients() {
         const request = Axios.get("http://localhost:8080/clients")
         .then(response => {
-            setZohoClients(response.data);
-            console.log(zohoClients)
+            return response.data;
         })
-        const ls = ["Aladar", "Janos"];
-        return ls;
+        
+        //const ls = ["Aladar", "Janos"];
+        //console.log(ls);
+        //return ls;
     }
 
     function handle(e) {
