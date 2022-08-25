@@ -23,6 +23,7 @@ function PostForm(props) {
     const [projects, setProjects] = useState();
     const [fromTime, setFromTime] = React.useState(null);
     const [toTime, setToTime] = React.useState(null);
+    const [workItem, setWorkItem] = useState();
 
     const [data, setData] = useState({
         clientName: "",
@@ -168,14 +169,17 @@ function PostForm(props) {
                 <br></br>
 
                 <br></br>
-                <TextField id="outlined-basic" label="Outlined" variant="outlined" value="Work item"/>
+                <TextField id="outlined-basic" label="Work item" variant="outlined" onChange={(e) => {
+                    data.workItem = e.target.value
+                }}/>
+                <br></br>
 
                 <br></br>
-                <label className="propertyLabel">Description: </label>
+                <TextField id="outlined-basic" label="Description" variant="outlined" onChange={(e) => {
+                    data.description = e.target.value
+                }}/>
                 <br></br>
-                <input onChange={(e) => handle(e)} id="description" value={data.description} placeholder="description"
-                    type="text"></input>
-                <br></br>
+
                 <label className="propertyLabel">Work date: </label>
                 <br></br>
                 <input onChange={(e) => handle(e)} placeholder="date" id="workDate" value={data.workDate}
@@ -223,10 +227,13 @@ function PostForm(props) {
                     />
                 </LocalizationProvider>
                 <br></br>
-                <label className="propertyLabel">Billable name: </label>
-                <br></br>
-                <input onChange={(e) => handle(e)} id="billable" value={data.billable} placeholder="billable"
-                    type="text"></input>
+                
+                <ToggleButtonGroup color="primary" value={alignment} exclusive onClick={(e) => {
+                        data.billable = e.target.value
+                    }}>
+                    <ToggleButton value="billable">Billable</ToggleButton>
+                    <ToggleButton value="non-billable">Billable</ToggleButton>
+                </ToggleButtonGroup>
                 <br></br>
                 <button>Submit</button>
             </form>
