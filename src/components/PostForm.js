@@ -4,6 +4,10 @@ import './Form.css'
 import TextField from '@mui/material/TextField';
 import ToggleButton from '@mui/material/ToggleButton';
 import ToggleButtonGroup from '@mui/material/ToggleButtonGroup';
+import DatePicker from "react-multi-date-picker"
+import transition from "react-element-popper/animations/transition"
+import opacity from "react-element-popper/animations/opacity"
+import Button from '@mui/material/Button';
 import { createTheme } from '@mui/material/styles';
 
 // Time picker
@@ -16,7 +20,7 @@ function PostForm(props) {
     // Styling
     const [alignment, setAlignment] = React.useState('web');
 
-    const url = "https://fcdc-2a02-2f08-ec10-d900-78b3-1ee9-4274-796d.eu.ngrok.io/add";
+    const url = "https://0da0-2a02-2f08-ec10-d900-78b3-1ee9-4274-796d.eu.ngrok.io/add";
 
     const [clients, setClients] = useState();
     const [jobs, setJobs] = useState();
@@ -51,7 +55,7 @@ function PostForm(props) {
     }, [data.clientName]);
 
     function getClients() {
-        Axios.get("https://fcdc-2a02-2f08-ec10-d900-78b3-1ee9-4274-796d.eu.ngrok.io/clientlist")
+        Axios.get("https://0da0-2a02-2f08-ec10-d900-78b3-1ee9-4274-796d.eu.ngrok.io/clientlist")
             .then(response => {
                 return response.data;
             }).then(
@@ -62,7 +66,7 @@ function PostForm(props) {
     }
 
     function getJobs() {
-        Axios.get("https://fcdc-2a02-2f08-ec10-d900-78b3-1ee9-4274-796d.eu.ngrok.io/joblist", {
+        Axios.get("https://0da0-2a02-2f08-ec10-d900-78b3-1ee9-4274-796d.eu.ngrok.io/joblist", {
             params: {
                 'clientName': data.clientName
             }
@@ -77,7 +81,7 @@ function PostForm(props) {
     }
 
     function getProjects() {
-        Axios.get("https://fcdc-2a02-2f08-ec10-d900-78b3-1ee9-4274-796d.eu.ngrok.io/projectlist", {
+        Axios.get("https://0da0-2a02-2f08-ec10-d900-78b3-1ee9-4274-796d.eu.ngrok.io/projectlist", {
             params: {
                 'clientName': data.clientName
             }
@@ -160,7 +164,7 @@ function PostForm(props) {
                         projects.map(item => {
                             return (
                                 <div className="projectDiv">
-                                    <ToggleButton value={item} name="projectName" onChange={(e) => handle(e)} placeholder="projectName" id="projectName">{item}</ToggleButton>
+                                    <ToggleButton value={item} name="projectName" onChange={(e) => handle(e)} placeholder="projectName" id="projectName" color="primary">{item}</ToggleButton>
                                 </div>
                             );
                         })
@@ -180,12 +184,20 @@ function PostForm(props) {
                 }}/>
                 <br></br>
 
-                <label className="propertyLabel">Work date: </label>
+                <DatePicker 
+                    multiple 
+                    value="Work date"
+                    format="YYYY-MM-DD"
+                    maxDate={new Date()}
+                    animations={[
+                        opacity(), 
+                        transition({ from: 35, duration: 800 })
+                      ]} 
+                    weekStartDayIndex={1}
+                    placeholder="Work date"
+                    shadow={true}
+                />
                 <br></br>
-                <input onChange={(e) => handle(e)} placeholder="date" id="workDate" value={data.workDate}
-                    type="workDate"></input>
-                <br></br>
-
 
                 <LocalizationProvider dateAdapter={AdapterDateFns}>
                     <TimePicker
@@ -227,7 +239,6 @@ function PostForm(props) {
                     />
                 </LocalizationProvider>
                 <br></br>
-                
                 <ToggleButtonGroup color="primary" value={alignment} exclusive onClick={(e) => {
                         data.billable = e.target.value
                     }}>
@@ -235,7 +246,7 @@ function PostForm(props) {
                     <ToggleButton value="non-billable">Billable</ToggleButton>
                 </ToggleButtonGroup>
                 <br></br>
-                <button>Submit</button>
+                <Button variant="contained" onSubmit={(e) => submit(e)}>Submit</Button>
             </form>
         </div>
     );
