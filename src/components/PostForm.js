@@ -16,12 +16,13 @@ function PostForm(props) {
     // Styling
     const [alignment, setAlignment] = React.useState('web');
 
-    const url = "https://a722-2a02-2f08-ec10-d900-818c-a190-a350-535.eu.ngrok.io/add";
+    const url = "https://fcdc-2a02-2f08-ec10-d900-78b3-1ee9-4274-796d.eu.ngrok.io/add";
 
     const [clients, setClients] = useState();
     const [jobs, setJobs] = useState();
     const [projects, setProjects] = useState();
-    const [fromTime, setFromTime] = useState(null);
+    const [fromTime, setFromTime] = React.useState(null);
+    const [toTime, setToTime] = React.useState(null);
 
     const [data, setData] = useState({
         clientName: "",
@@ -49,46 +50,41 @@ function PostForm(props) {
     }, [data.clientName]);
 
     function getClients() {
-        Axios.get("https://a722-2a02-2f08-ec10-d900-818c-a190-a350-535.eu.ngrok.io/clientlist")
+        Axios.get("https://fcdc-2a02-2f08-ec10-d900-78b3-1ee9-4274-796d.eu.ngrok.io/clientlist")
             .then(response => {
                 return response.data;
             }).then(
                 response => {
-                    console.log(response)
                     setClients(response)
                 }
             )
     }
 
     function getJobs() {
-        Axios.get("https://a722-2a02-2f08-ec10-d900-818c-a190-a350-535.eu.ngrok.io/joblist", {
+        Axios.get("https://fcdc-2a02-2f08-ec10-d900-78b3-1ee9-4274-796d.eu.ngrok.io/joblist", {
             params: {
                 'clientName': data.clientName
             }
         })
             .then(response => {
-                console.log('Client name in getJobs(): ' + data.clientName)
                 return response.data;
             }).then(
                 response => {
-                    console.log(response)
                     setJobs(response)
                 }
             )
     }
 
     function getProjects() {
-        Axios.get("https://a722-2a02-2f08-ec10-d900-818c-a190-a350-535.eu.ngrok.io/projectlist", {
+        Axios.get("https://fcdc-2a02-2f08-ec10-d900-78b3-1ee9-4274-796d.eu.ngrok.io/projectlist", {
             params: {
                 'clientName': data.clientName
             }
         })
             .then(response => {
-                console.log('Client name in getProjects(): ' + data.clientName)
                 return response.data;
             }).then(
                 response => {
-                    console.log(response)
                     setProjects(response)
                 }
             )
@@ -170,11 +166,10 @@ function PostForm(props) {
                     }
                 </ToggleButtonGroup>
                 <br></br>
+
                 <br></br>
-                <label className="propertyLabel">Work item name: </label>
-                <br></br>
-                <input onChange={(e) => handle(e)} id="workItem" value={data.workItem} placeholder="workItem"
-                    type="text"></input>
+                <TextField id="outlined-basic" label="Outlined" variant="outlined" value="Work item"/>
+
                 <br></br>
                 <label className="propertyLabel">Description: </label>
                 <br></br>
@@ -190,11 +185,18 @@ function PostForm(props) {
 
                 <LocalizationProvider dateAdapter={AdapterDateFns}>
                     <TimePicker
-                        placeholder="fromTime"
-                        label="Basic example"
+                        minTime={new Date(0, 0, 0, 8, 0)}
+                        maxTime={new Date(0, 0, 0, 23, 0)}
+                        label="From time"
                         value={fromTime}
                         onChange={(newValue) => {
                             setFromTime(newValue)
+                            let time = newValue.toLocaleString('en-US', {
+                                    hour: '2-digit',
+                                    minute: '2-digit', 
+                                    hour12: true 
+                                });
+                            data.fromTime = time;
                           }}
                         renderInput={(params) => <TextField {...params} />}
                     />
@@ -202,10 +204,24 @@ function PostForm(props) {
 
 
                 <br></br>
-                <label className="propertyLabel">To time: </label>
-                <br></br>
-                <input onChange={(e) => handle(e)} id="toTime" value={data.toTime} placeholder="toTime"
-                    type="text"></input>
+                <LocalizationProvider dateAdapter={AdapterDateFns}>
+                    <TimePicker
+                        minTime={new Date(0, 0, 0, 8, 0)}
+                        maxTime={new Date(0, 0, 0, 23, 0)}
+                        label="To time"
+                        value={toTime}
+                        onChange={(newValue) => {
+                            setToTime(newValue)
+                            let time = newValue.toLocaleString('en-US', {
+                                    hour: '2-digit',
+                                    minute: '2-digit', 
+                                    hour12: true 
+                                });
+                            data.toTime = time;
+                          }}
+                        renderInput={(params) => <TextField {...params} />}
+                    />
+                </LocalizationProvider>
                 <br></br>
                 <label className="propertyLabel">Billable name: </label>
                 <br></br>
