@@ -8,6 +8,8 @@ import DatePicker from "react-multi-date-picker"
 import transition from "react-element-popper/animations/transition"
 import opacity from "react-element-popper/animations/opacity"
 import Button from '@mui/material/Button';
+import CircularProgress from '@mui/material/CircularProgress';
+import Box from '@mui/material/Box';
 import { createTheme } from '@mui/material/styles';
 
 // Time picker
@@ -121,9 +123,21 @@ function PostForm(props) {
             })
     }
 
-    if (typeof (clients) === 'undefined') return <div></div>
-    if (typeof (jobs) === 'undefined') return <div></div>
-    if (typeof (projects) === 'undefined') return <div></div>
+    if (typeof (clients) === 'undefined') return (
+        <Box sx={{ display: 'flex' }}>
+            <CircularProgress />
+        </Box>
+    )
+    if (typeof (jobs) === 'undefined') return (
+        <Box sx={{ display: 'flex' }}>
+            <CircularProgress />
+        </Box>
+    )
+    if (typeof (projects) === 'undefined') return (
+        <Box sx={{ display: 'flex' }}>
+            <CircularProgress />
+        </Box>
+    )
 
     return (
         <div align="center">
@@ -164,7 +178,7 @@ function PostForm(props) {
                         projects.map(item => {
                             return (
                                 <div className="projectDiv">
-                                    <ToggleButton value={item} name="projectName" onChange={(e) => handle(e)} placeholder="projectName" id="projectName" color="primary">{item}</ToggleButton>
+                                    <ToggleButton value={item} name="projectName" onChange={(e) => handle(e)} placeholder="projectName" id="projectName">{item}</ToggleButton>
                                 </div>
                             );
                         })
@@ -195,7 +209,6 @@ function PostForm(props) {
                       ]} 
                     weekStartDayIndex={1}
                     placeholder="Work date"
-                    shadow={true}
                 />
                 <br></br>
 
