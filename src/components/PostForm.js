@@ -30,6 +30,7 @@ function PostForm(props) {
     const [fromTime, setFromTime] = React.useState(null);
     const [toTime, setToTime] = React.useState(null);
     const [workItem, setWorkItem] = useState();
+    const [workDateState, setWorkDateState] = useState(new Date());
 
     const [data, setData] = useState({
         clientName: "",
@@ -203,12 +204,17 @@ function PostForm(props) {
                     value="Work date"
                     format="YYYY-MM-DD"
                     maxDate={new Date()}
-                    animations={[
-                        opacity(), 
-                        transition({ from: 35, duration: 800 })
-                      ]} 
                     weekStartDayIndex={1}
                     placeholder="Work date"
+                    onChange={(e) => {
+                        setWorkDateState(e);
+                        let date = e.toLocaleString('en-US', {
+                            hour: '2-digit',
+                            minute: '2-digit', 
+                            hour12: true 
+                        });
+                        data.workDate = date;
+                    }}
                 />
                 <br></br>
 
@@ -256,10 +262,10 @@ function PostForm(props) {
                         data.billable = e.target.value
                     }}>
                     <ToggleButton value="billable">Billable</ToggleButton>
-                    <ToggleButton value="non-billable">Billable</ToggleButton>
+                    <ToggleButton value="non-billable">Non-billable</ToggleButton>
                 </ToggleButtonGroup>
                 <br></br>
-                <Button variant="contained" onSubmit={(e) => submit(e)}>Submit</Button>
+                <Button variant="contained" onClick={submit}>Submit</Button>
             </form>
         </div>
     );

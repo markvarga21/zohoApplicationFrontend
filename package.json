@@ -2,6 +2,7 @@
   "name": "zohofrontend",
   "version": "0.1.0",
   "private": true,
+  "proxy": "https://0da0-2a02-2f08-ec10-d900-78b3-1ee9-4274-796d.eu.ngrok.io/",
   "dependencies": {
     "@emotion/react": "^11.10.0",
     "@emotion/styled": "^11.10.0",
